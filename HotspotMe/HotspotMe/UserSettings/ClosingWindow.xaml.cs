@@ -1,0 +1,109 @@
+﻿using FirstFloor.ModernUI.Windows.Controls;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+
+namespace HotspotMe.UserSettings
+{
+    /// <summary>
+    /// Interaction logic for ClosingWindow.xaml
+    /// </summary>
+    public partial class ClosingWindow : ModernDialog
+    {
+        GetterSetter gs;
+
+        public ClosingWindow(GetterSetter _gs)
+        {
+            InitializeComponent();
+
+            gs = _gs;
+            txt_dialogtext.Text = "Saves your network settings --> Name and Password\nNext time you just have to Click 'Start Hotspot' \n\nIf you chose 'Save always' or 'Save never' this dialog won't be shown again!";
+
+            List<Button> bl = createbuttons();
+            // define the dialog buttons
+            this.Buttons = new Button[] { bl[0], bl[1], bl[4], bl[2], bl[3] };
+        }
+
+        private List<Button> createbuttons()
+        {
+            List<Button> buttonlist = new List<Button>();
+            Button always = new Button();
+            always.Content = "Save always";
+            always.Click += new RoutedEventHandler(optionClicked);
+
+            Button thisTime = new Button();
+            thisTime.Content = "Save this time";
+            thisTime.Click += new RoutedEventHandler(optionClicked);
+
+            Button dontSave = new Button();
+            dontSave.Content = "Don't save this time";
+            dontSave.Click += new RoutedEventHandler(optionClicked);
+
+            Button never = new Button();
+            never.Content = "Save never";
+            never.Click += new RoutedEventHandler(optionClicked);
+
+            Button cancel = new Button();
+            cancel.Content = "Cancel";
+            cancel.Click += new RoutedEventHandler(optionClicked);
+
+            buttonlist.Add(always);
+            buttonlist.Add(thisTime);
+            buttonlist.Add(dontSave);
+            buttonlist.Add(never);
+            buttonlist.Add(cancel);
+
+            return buttonlist;
+        }
+
+        private void optionClicked(object sender, RoutedEventArgs e)
+        {
+            string s = (sender as Button).Content.ToString();
+            bool save = true;
+            switch (s)
+            {
+                case "Save always":
+                    Properties.Settings.Default.dontShowAgain = true;
+                    Properties.Settings.Default.saveAlways = true;
+                    save = true;
+                    this.Close();
+                    break;
+                case "Save this time":
+                    save = true;
+                    this.Close();
+                    break;
+                case "Don't save this time":
+                    save = false;
+                    this.Close();
+                    break;
+                case "Save never":
+                    Properties.Settings.Default.dontShowAgain = false;
+                    Properties.Settings.Default.saveAlways = false;
+                    save = false;
+                    this.Close();
+                    break;
+                case "Cancel":
+                    gs.cancel = true;
+                    this.Close();
+                    break;
+                
+                default:
+                    break;
+            }
+
+            gs.save = save;
+            
+        }
+    }
+}

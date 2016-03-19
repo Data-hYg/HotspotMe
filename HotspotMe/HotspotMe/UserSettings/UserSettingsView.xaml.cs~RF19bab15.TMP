@@ -1,0 +1,130 @@
+﻿using FirstFloor.ModernUI.Windows.Controls;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Diagnostics;
+using System.Linq;
+using System.Net.NetworkInformation;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+
+
+namespace HotspotMe.UserSettings
+{
+    /// <summary>
+    /// Interaction logic for ModernWindow1.xaml
+    /// </summary>
+    public partial class UserSettingsView : ModernWindow
+    {
+        NetworkInterface[] fNetworkInterfaces = NetworkInterface.GetAllNetworkInterfaces();
+        List<string> _descriptions = new List<string>();
+        int networkIndex;
+        private static readonly int COLUMS = 5;
+        public UserSettingsView()
+        {
+
+            InitializeComponent();
+            setNetworkDescriptions(fNetworkInterfaces);
+            cb_NetworkInterfaces.ItemsSource = _descriptions;
+            cb_ThemeMain.ItemsSource = typeof(Colors).GetProperties();
+
+        }
+
+
+        private void networkadapterLink(object sender, RequestNavigateEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
+            e.Handled = true;
+        }
+
+        private void setNetworkDescriptions(NetworkInterface[] _netWorkInterfaces)
+        {
+            for (int i = 0; i < _netWorkInterfaces.Length; i++)
+            {
+                _descriptions.Add(_netWorkInterfaces[i].Description);
+            }
+
+        }
+
+        private void cb_NetworkInterfaces_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            networkIndex = (sender as ComboBox).SelectedIndex;
+        }
+
+        private void btn_cancel_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void btn_save_Click(object sender, RoutedEventArgs e)
+        {
+            if (cb_NetworkInterfaces.SelectedItem != null)
+            {
+                GetterSetter gs = new GetterSetter();
+                gs.networkindex = networkIndex;
+            }
+
+            this.Close();
+        }
+
+        private void ModernWindow_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            this.DragMove();
+        }
+
+        private void ModernWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            Application curApp = Application.Current;
+            Window mainWindow = curApp.MainWindow;
+            this.Left = mainWindow.Left + (mainWindow.Width - this.ActualWidth) / 2;
+            this.Top = mainWindow.Top + (mainWindow.Height - this.ActualHeight) / 2;
+        }
+
+        private void cb_ThemeMain_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            string s = cb_ThemeMain.SelectedValue.ToString();
+            SolidColorBrush br =  new SolidColorBrush((Color)ColorConverter.ConvertFromString(s));           
+
+        }
+
+
+
+
+        private void table_Loaded(object sender, RoutedEventArgs e)
+        {
+            Grid grid = sender as Grid;
+            if (grid != null)
+            {
+                if (grid.RowDefinitions.Count == 0)
+                {
+                    for (int r = 0; r <= cb_ThemeMain.Items.Count / COLUMS; r++)
+                    {
+                        grid.RowDefinitions.Add(new RowDefinition());
+                    }
+                }
+                if (grid.ColumnDefinitions.Count == 0)
+                {
+                    for (int c = 0; c < Math.Min(cb_ThemeMain.Items.Count, COLUMS); c++)
+                    {
+                        grid.ColumnDefinitions.Add(new ColumnDefinition());
+                    }
+                }
+                for (int i = 0; i < grid.Children.Count; i++)
+                {
+                    Grid.SetColumn(grid.Children[i], i % COLUMS);
+                    Grid.SetRow(grid.Children[i], i / COLUMS);
+                }
+            }
+        }
+
+    }
+}

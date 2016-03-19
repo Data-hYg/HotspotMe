@@ -1,0 +1,40 @@
+﻿<mui:ModernWindow x:Class="HotspotMe.MainWindow"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:mui="http://firstfloorsoftware.com/ModernUI"
+                  Title="HotspotMe" 
+                  LogoData="M4.93,2.93C3.12,4.74 2,7.24 2,10C2,12.76 3.12,15.26 4.93,17.07L6.34,15.66C4.89,14.22 4,12.22 4,10C4,7.79 4.89,5.78 6.34,4.34L4.93,2.93M19.07,2.93L17.66,4.34C19.11,5.78 20,7.79 20,10C20,12.22 19.11,14.22 17.66,15.66L19.07,17.07C20.88,15.26 22,12.76 22,10C22,7.24 20.88,4.74 19.07,2.93M7.76,5.76C6.67,6.85 6,8.35 6,10C6,11.65 6.67,13.15 7.76,14.24L9.17,12.83C8.45,12.11 8,11.11 8,10C8,8.89 8.45,7.89 9.17,7.17L7.76,5.76M16.24,5.76L14.83,7.17C15.55,7.89 16,8.89 16,10C16,11.11 15.55,12.11 14.83,12.83L16.24,14.24C17.33,13.15 18,11.65 18,10C18,8.35 17.33,6.85 16.24,5.76M12,8A2,2 0 0,0 10,10A2,2 0 0,0 12,12A2,2 0 0,0 14,10A2,2 0 0,0 12,8M11,14V18H10A1,1 0 0,0 9,19H2V21H9A1,1 0 0,0 10,22H14A1,1 0 0,0 15,21H22V19H15A1,1 0 0,0 14,18H13V14H11Z"                  
+                  Style="{StaticResource BlankWindow}" Closing="ModernWindow_Closing">
+
+    <Grid>
+
+        <Button x:Name="btn_settings" Click="settings_Click" Content="Settings" BorderThickness="0" Margin="0,0,83,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="80"/>
+        <Button x:Name="btn_help" Click="btn_help_Click" Content="Help" BorderThickness="0" Margin="0,0,5,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="75"/>
+
+        <TextBox x:Name="txt_ssid" HorizontalAlignment="Left" Height="23" Margin="108,24,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+        <PasswordBox x:Name="txt_password" HorizontalAlignment="Left" Height="23" Margin="108,58,0,0" VerticalAlignment="Top" Width="120"/>
+        <PasswordBox x:Name="txt_confirmpassword" HorizontalAlignment="Left" Height="23" Margin="108,86,0,0" VerticalAlignment="Top" Width="120" PasswordChanged="txt_confirmpassword_PasswordChanged"/>
+        <Button x:Name="btn_setHotspot" Click="btn_setHotspot_Click" Content="Set Hotspot" HorizontalAlignment="Left" VerticalAlignment="Top" Width="213" Margin="15,150,0,0"/>
+        <Button x:Name="btn_startHotspot" Click="btn_startHotspot_Click" Content="Start Hotspot" HorizontalAlignment="Left" Margin="15,189,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="btn_stopHotspot" Click="btn_stopHotspot_Click" Content="Stop Hotspot" HorizontalAlignment="Left" Margin="125,189,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="cb_persistent" Content="" HorizontalAlignment="Left" Margin="208,117,0,0" VerticalAlignment="Top" IsChecked="True"/>
+
+        <Label Content="|" HorizontalAlignment="Right" Margin="0,3,80,0" VerticalAlignment="Top"/>
+        <Label Content="Networkname" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,24,0,0"/>
+        <Label Content="Password" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,55,0,0"/>
+        <Label Content="Confirm" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,86,0,0"/>
+        <Label Content="Persistent" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="15,117,0,0" Width="auto"/>
+        <Viewbox Margin="71,105,0,0" HorizontalAlignment="Left" Width="26" Height="18" VerticalAlignment="Top">
+            <Canvas MouseEnter="MouseHoverEnter" MouseLeave="MouseHoverLeave" MouseLeftButtonDown="Explanation_Click"  Width="24" Height="24" Cursor="Hand">
+                <Path Data="M4,2A2,2 0 0,0 2,4V16A2,2 0 0,0 4,18H8V21A1,1 0 0,0 9,22H9.5V22C9.75,22 10,21.9 10.2,21.71L13.9,18H20A2,2 0 0,0 22,16V4C22,2.89 21.1,2 20,2H4M4,4H20V16H13.08L10,19.08V16H4V4M12.19,5.5C11.3,5.5 10.59,5.68 10.05,6.04C9.5,6.4 9.22,7 9.27,7.69C0.21,7.69 6.57,7.69 11.24,7.69C11.24,7.41 11.34,7.2 11.5,7.06C11.7,6.92 11.92,6.85 12.19,6.85C12.5,6.85 12.77,6.93 12.95,7.11C13.13,7.28 13.22,7.5 13.22,7.8C13.22,8.08 13.14,8.33 13,8.54C12.83,8.76 12.62,8.94 12.36,9.08C11.84,9.4 11.5,9.68 11.29,9.92C11.1,10.16 11,10.5 11,11H13C13,10.72 13.05,10.5 13.14,10.32C13.23,10.15 13.4,10 13.66,9.85C14.12,9.64 14.5,9.36 14.79,9C15.08,8.63 15.23,8.24 15.23,7.8C15.23,7.1 14.96,6.54 14.42,6.12C13.88,5.71 13.13,5.5 12.19,5.5M11,12V14H13V12H11Z" Fill="Black" />
+            </Canvas>
+        </Viewbox>
+        <GroupBox Header="Network Monitor" Margin="14,237,10,10">
+            <Label x:Name="lbl_monitor" Content="" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="4,13,0,0"/>
+        </GroupBox>
+        <MediaElement x:Name="mE_wlangif" MediaEnded="myGif_MediaEnded" Visibility="Hidden" UnloadedBehavior="Manual"     Source="/Ressources/WLAN.gif" LoadedBehavior="Play" Margin="254,58,0,0" Height="157" VerticalAlignment="Top" HorizontalAlignment="Left" Width="129"/>
+        
+    </Grid>
+    
+</mui:ModernWindow>
+
